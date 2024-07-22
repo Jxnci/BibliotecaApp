@@ -17,6 +17,7 @@ class LibroFactory extends Factory {
     $titulo = $this->faker->sentence();
     return [
       'titulo' => $titulo,
+      'imagen' => "libro.jpg",
       'codigo' => $this->faker->numberBetween(1, 100) . '_' . $this->primeraLetra($titulo),
       'paginas' => $this->faker->numberBetween(100, 600),
       'resena' => $this->faker->sentence(10),

@@ -9,6 +9,7 @@ class Libro extends Model {
   use HasFactory;
   protected $fillable = [
     'titulo',
+    'imagen',
     'codigo',
     'paginas',
     'resena',

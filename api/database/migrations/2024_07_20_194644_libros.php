@@ -14,6 +14,7 @@ return new class extends Migration {
       $table->engine = "InnoDB";
       $table->bigIncrements('id');
       $table->string('titulo');
+      $table->string('imagen');
       $table->string('codigo');
       $table->string('paginas');
       $table->string('resena');
