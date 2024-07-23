@@ -9,8 +9,20 @@ class PrestamoController extends Controller {
   /**
    * Display a listing of the resource.
    */
-  public function index() {
-    //
+  public function index(Request $request) {
+    $limit = $request->input('limit', 1) * 10;
+    $fechaInicio = $request->input('fecha_inicio');
+    $fechaFin = $request->input('fecha_fin');
+
+    $query = Prestamo::with('persona:id,nombres,apellidos,celular,tipo_id', 'persona.tipo:id,descripcion');
+
+    if ($fechaInicio && $fechaFin) {
+      $query->whereBetween('fecha_inicio', [$fechaInicio, $fechaFin]);
+    }
+
+    $prestamos = $query->paginate($limit);
+
+    return response()->json($prestamos, 200);
   }
 
   /**
@@ -31,7 +43,19 @@ class PrestamoController extends Controller {
    * Display the specified resource.
    */
   public function show(Prestamo $prestamo) {
-    //
+    $res = Prestamo::with('persona:id,nombres,apellidos,celular,tipo_id', 'persona.tipo:id,descripcion')
+      ->where('id', $prestamo->id)->get();
+    if (isset($res)) {
+      return response()->json([
+        'data' => $res,
+        'mensaje' => "Prestamo encontrado"
+      ]);
+    } else {
+      return response()->json([
+        'error' => true,
+        'mensaje' => "Prestamo no encontrado"
+      ]);
+    }
   }
 
   /**

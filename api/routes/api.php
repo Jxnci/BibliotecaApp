@@ -26,7 +26,7 @@ Route::apiResource("libros", LibroController::class);
 Route::apiResource("autores", AutorController::class);
 Route::apiResource("prestamos", PrestamoController::class);
 Route::apiResource("personas", PersonaController::class);
-Route::apiResource("multa", MultaController::class);
+Route::apiResource("multas", MultaController::class);
 
 // Route::middleware(['auth:sanctum'])->group(function () {
   // Route::apiResource("usuarios", UserController::class);

@@ -9,24 +9,28 @@ use Illuminate\Support\Facades\Validator;
 
 class LibroController extends Controller {
 
-  protected $cols_to_get = [
-    'libros.id',
-    'libros.name',
-    'libros.description',
-    'libros.year',
-    'libros.calification',
-    'u.name as vendor_name',
-    'libros.created_at',
-    'libros.updated_at',
-];
-
   /**
    * Display a listing of the resource.
    */
-  public function index() {
-    $libros = Libro::all();
+  public function index(Request $request) {
+    $limit = $request->input('limit', 1) * 10;
+    $categoria_id = $request->input('categoria_id');
+    $titulo = $request->input('titulo');
+
+    $query = Libro::with('categoria:id,descripcion');
+
+    if ($categoria_id) {
+      $query->where('categoria_id', $categoria_id);
+    }
+    if ($titulo) {
+      $query->where('titulo', 'like', "%{$titulo}%");
+    }
+
+    $libros = $query->paginate($limit);
+
     return response()->json($libros, 200);
   }
+
 
   /**
    * Show the form for creating a new resource.
@@ -84,10 +88,10 @@ class LibroController extends Controller {
    * Display the specified resource.
    */
   public function show(Libro $libro) {
-    $product = Libro::where('id', $libro->id)->get();
-    if (isset($product)) {
+    $res = Libro::with('categoria:id,descripcion')->where('id', $libro->id)->get();
+    if (isset($res)) {
       return response()->json([
-        'data' => $product,
+        'data' => $res,
         'mensaje' => "Libro encontrado"
       ]);
     } else {

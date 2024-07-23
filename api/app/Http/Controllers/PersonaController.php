@@ -9,8 +9,27 @@ class PersonaController extends Controller {
   /**
    * Display a listing of the resource.
    */
-  public function index() {
-    //
+  public function index(Request $request) {
+    $limit = $request->input('limit', 1) * 10;
+    $nombreApellido = $request->input('nombreApellido');
+    $tipo_id = $request->input('tipo');
+
+    $query = Persona::with('tipo:id,descripcion');
+
+    if ($tipo_id) {
+      $query->where('tipo_id', $tipo_id);
+    }
+
+    if ($nombreApellido) {
+      $query->where(function ($q) use ($nombreApellido) {
+        $q->where('nombres', 'like', "%{$nombreApellido}%")
+          ->orWhere('apellidos', 'like', "%{$nombreApellido}%");
+      });
+    }
+
+    $autores = $query->paginate($limit);
+
+    return response()->json($autores, 200);
   }
 
   /**
@@ -31,7 +50,18 @@ class PersonaController extends Controller {
    * Display the specified resource.
    */
   public function show(Persona $persona) {
-    //
+    $res = Persona::with('tipo:id,descripcion')->where('id', $persona->id)->get();
+    if (isset($res)) {
+      return response()->json([
+        'data' => $res,
+        'mensaje' => "Persona encontrado"
+      ]);
+    } else {
+      return response()->json([
+        'error' => true,
+        'mensaje' => "Persona no encontrado"
+      ]);
+    }
   }
 
   /**

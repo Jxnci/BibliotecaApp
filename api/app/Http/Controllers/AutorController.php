@@ -5,61 +5,78 @@ namespace App\Http\Controllers;
 use App\Models\Autor;
 use Illuminate\Http\Request;
 
-class AutorController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+class AutorController extends Controller {
+  /**
+   * Display a listing of the resource.
+   */
+  public function index(Request $request) {
+    $limit = $request->input('limit', 1) * 10;
+    $nombreApellido = $request->input('nombreApellido');
+
+    $query = Autor::query();
+
+    if ($nombreApellido) {
+      $query->where(function ($q) use ($nombreApellido) {
+        $q->where('nombres', 'like', "%{$nombreApellido}%")
+          ->orWhere('apellidos', 'like', "%{$nombreApellido}%");
+      });
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    $autores = $query->paginate($limit);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+    return response()->json($autores, 200);
+  }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Autor $autor)
-    {
-        //
-    }
+  /**
+   * Show the form for creating a new resource.
+   */
+  public function create() {
+    //
+  }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Autor $autor)
-    {
-        //
-    }
+  /**
+   * Store a newly created resource in storage.
+   */
+  public function store(Request $request) {
+    //
+  }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Autor $autor)
-    {
-        //
+  /**
+   * Display the specified resource.
+   */
+  public function show(Autor $autor) {
+    $res = Autor::where('id', $autor->id)->get();
+    if (isset($res)) {
+      return response()->json([
+        'data' => $res,
+        'mensaje' => "Autor encontrado"
+      ]);
+    } else {
+      return response()->json([
+        'error' => true,
+        'mensaje' => "Autor no encontrado"
+      ]);
     }
+  }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Autor $autor)
-    {
-        //
-    }
+  /**
+   * Show the form for editing the specified resource.
+   */
+  public function edit(Autor $autor) {
+    //
+  }
+
+  /**
+   * Update the specified resource in storage.
+   */
+  public function update(Request $request, Autor $autor) {
+    //
+  }
+
+  /**
+   * Remove the specified resource from storage.
+   */
+  public function destroy(Autor $autor) {
+    //
+  }
 }
