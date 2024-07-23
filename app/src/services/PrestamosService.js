@@ -1,14 +1,13 @@
 import useAuth from '../stores/useAuth'
 import settings from '../settings.json'
-
 import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 
-class LibrosService {
+class PrestamosService {
   async fetchAll(page = 1) {
     try {
       const URL_API = settings.environments.prod.api.uri
-      const uri = `${URL_API}/libros?page=${page}`
+      const uri = `${URL_API}/prestamos?page=${page}`
       const rawResponse = await fetch(uri, {
         method: 'GET'
       })
@@ -18,11 +17,10 @@ class LibrosService {
       console.log(error)
     }
   }
-
   async fetchById(id) {
     try {
       const URL_API = settings.environments.prod.api.uri
-      const uri = `${URL_API}/libros/${id}`
+      const uri = `${URL_API}/prestamos/${id}`
       const rawResponse = await fetch(uri, {
         method: 'GET',
         headers: {
@@ -35,7 +33,6 @@ class LibrosService {
       console.log(error)
     }
   }
-
   async add() {
     try {
       const store = useAuth()
@@ -60,7 +57,7 @@ class LibrosService {
   async deleteById(id) {
     try {
       const URL_API = settings.environments.dev.api.uri
-      const uri = `${URL_API}/libros/${id}`
+      const uri = `${URL_API}/prestamos/${id}`
       const rawResponse = await fetch(uri, {
         method: 'DELETE',
         headers: {
@@ -76,4 +73,4 @@ class LibrosService {
     }
   }
 }
-export default LibrosService
+export default PrestamosService

@@ -43,7 +43,7 @@
               <router-link :to="{ name: 'libros' }"
                 :class="{ 'bg-blue-50 text-blue-700 dark:bg-gray-800 dark:text-blue-400': isRouteActive('libros'), 'text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300 hover:text-gray-700': !isRouteActive('libros') }"
                 class="group relative w-max rounded px-2 py-1.5 ">
-                <v-icon name="fa-store" class="opacity-75"></v-icon>
+                <v-icon name="md-librarybooks-round" class="opacity-75"></v-icon>
                 <span
                   class="text-xs pointer-events-none absolute  bg-slate-900 rounded text-white px-2 py-1.5 ms-4 w-max opacity-0 transition-opacity group-hover:opacity-100">
                   Libros
@@ -51,13 +51,13 @@
               </router-link>
             </li>
             <li class="flex justify-center">
-              <router-link :to="{ name: 'autores' }"
-                :class="{ 'bg-blue-50 text-blue-700 dark:bg-gray-800 dark:text-blue-400': isRouteActive('autores'), 'text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300 hover:text-gray-700': !isRouteActive('autores') }"
+              <router-link :to="{ name: 'ajustes' }"
+                :class="{ 'bg-blue-50 text-blue-700 dark:bg-gray-800 dark:text-blue-400': isRouteActive('ajustes'), 'text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300 hover:text-gray-700': !isRouteActive('ajustes') }"
                 class="group relative w-max rounded px-2 py-1.5 ">
-                <v-icon name="md-personsearch-round" class="opacity-75"></v-icon>
+                <v-icon name="io-settings-sharp" class="opacity-75"></v-icon>
                 <span
                   class="text-xs pointer-events-none absolute  bg-slate-900 rounded text-white px-2 py-1.5 ms-4 w-max opacity-0 transition-opacity group-hover:opacity-100">
-                  Autores
+                  Ajustes
                 </span>
               </router-link>
             </li>

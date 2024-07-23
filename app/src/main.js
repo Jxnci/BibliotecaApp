@@ -22,7 +22,9 @@ import {
   BiPersonCheck,
   LaEditSolid,
   RiDeleteBinLine,
-  BiEye
+  BiEye,
+  IoSettingsSharp,
+  MdLibrarybooksRound
 } from 'oh-vue-icons/icons'
 
 addIcons(
@@ -40,7 +42,9 @@ addIcons(
   BiPersonCheck,
   LaEditSolid,
   RiDeleteBinLine,
-  BiEye
+  BiEye,
+  IoSettingsSharp,
+  MdLibrarybooksRound
 )
 
 

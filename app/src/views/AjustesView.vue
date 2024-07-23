@@ -1,5 +1,5 @@
 <template>
-Autores
+Ajustesss
 </template>
 
 <script setup>

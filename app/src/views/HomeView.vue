@@ -8,9 +8,8 @@
           <span v-if="isRouteActive('dashboard')">Dashboard</span>
           <span v-if="isRouteActive('prestamos')">Gestion de Prestamos</span>
           <span v-if="isRouteActive('libros')">Lista de Libros</span>
-          <span v-if="isRouteActive('autores')">Gestion de Autores</span>
+          <span v-if="isRouteActive('ajustes')">Ajustes Generales</span>
           <span v-if="isRouteActive('reportes')">Reportes</span>
-          <span v-if="isRouteActive('ajustes')">Ajustes</span>
         </h2>
         <!-- <Breadcrumbs /> -->
       </div>

@@ -14,7 +14,7 @@ class PrestamoController extends Controller {
     $fechaInicio = $request->input('fecha_inicio');
     $fechaFin = $request->input('fecha_fin');
 
-    $query = Prestamo::with('persona:id,nombres,apellidos,celular,tipo_id', 'persona.tipo:id,descripcion');
+    $query = Prestamo::with('persona:id,nombres,apellidos,celular,tipo_id', 'persona.tipo:id,descripcion', 'user:id,name', 'multa:id,asunto,monto');
 
     if ($fechaInicio && $fechaFin) {
       $query->whereBetween('fecha_inicio', [$fechaInicio, $fechaFin]);
@@ -43,7 +43,7 @@ class PrestamoController extends Controller {
    * Display the specified resource.
    */
   public function show(Prestamo $prestamo) {
-    $res = Prestamo::with('persona:id,nombres,apellidos,celular,tipo_id', 'persona.tipo:id,descripcion')
+    $res = Prestamo::with('persona:id,nombres,apellidos,celular,tipo_id', 'persona.tipo:id,descripcion', 'user:id,name', 'multa:id,asunto,monto')
       ->where('id', $prestamo->id)->get();
     if (isset($res)) {
       return response()->json([

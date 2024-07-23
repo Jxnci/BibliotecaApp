@@ -3,8 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import DashboardView from '@/views/DashboardView.vue'
 import PrestamosView from '@/views/PrestamosView.vue'
-import AutoresView from '@/views/AutoresView.vue'
-// import AjustesView from '@/views/AjustesView.vue'
+import AjustesView from '@/views/AjustesView.vue'
 import PerfilView from '@/views/PerfilView.vue'
 import LIbrosView from '@/views/LIbrosView.vue'
 import ReportesView from '@/views/ReportesView.vue'
@@ -50,9 +49,9 @@ const router = createRouter({
           // },
         },
         {
-          path: 'autores',
-          name: 'autores',
-          component: AutoresView
+          path: 'ajustes',
+          name: 'ajustes',
+          component: AjustesView
           // meta: {
           //   requireAuth: true,
           // },
