@@ -1,0 +1,14 @@
+{
+  "environments":{
+    "prod":{
+      "api":{
+        "uri":"http://127.0.0.1:8000/api"
+      }
+    },
+    "dev":{
+      "api":{
+        "uri":"http://127.0.0.1:8000/api"
+      }
+    } 
+  }
+}
