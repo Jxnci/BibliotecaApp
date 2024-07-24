@@ -13,4 +13,8 @@ class Autor extends Model {
     'apellidos',
     'nacimiento'
   ];
+
+  public function libros() {
+    return $this->belongsToMany(Libro::class, 'detalle_autors', 'autor_id', 'libro_id');
+  }
 }

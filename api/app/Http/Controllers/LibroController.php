@@ -160,7 +160,6 @@ class LibroController extends Controller {
 
   public function destroy(Libro $libro) {
     try {
-
       $res = $libro->delete();
       if ($res) {
         return response()->json([

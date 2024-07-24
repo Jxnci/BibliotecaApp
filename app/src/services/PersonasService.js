@@ -4,10 +4,10 @@ import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 
 class PersonasService {
-  async fetchAll(page = 1) {
+  async fetchAll(buscar, buscarParam, page = 1) {
     try {
       const URL_API = settings.environments.prod.api.uri
-      const uri = `${URL_API}/personas?page=${page}`
+      const uri = `${URL_API}/personas?page=${page}&${buscarParam}=${buscar}`
       const rawResponse = await fetch(uri, {
         method: 'GET'
       })
@@ -33,26 +33,31 @@ class PersonasService {
       console.log(error)
     }
   }
-  async add() {
-    try {
-      const store = useAuth()
-      const TOKEN = store.token
-      const URL_API = store.baseURL
-
-      const uri = `${URL_API}/productos/create`
-      const rawResponse = await fetch(uri, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'Application/json',
-          Accept: 'Application/json',
-          Authorization: `Bearer ${TOKEN}`
-        }
-      })
-      const { data } = await rawResponse.json()
-      return data
-    } catch (error) {
-      console.log(error)
-    }
+  async create(item) {
+    const URL_API = settings.environments.prod.api.uri;
+    const uri = `${URL_API}/personas`;
+    const rawResponse = await fetch(uri, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(item)
+    });
+    const response = await rawResponse.json();
+    return response;
+  }
+  async update(id, item) {
+    const URL_API = settings.environments.prod.api.uri
+    const uri = `${URL_API}/personas/${id}`
+    const rawResponse = await fetch(uri, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(item)
+    })
+    const response = await rawResponse.json()
+    return response
   }
   async deleteById(id) {
     try {
@@ -64,8 +69,8 @@ class PersonasService {
           'Content-Type': 'Application/json'
         }
       })
-      const { data } = await rawResponse.json()
-      return data
+      const response = await rawResponse.json()
+      return response
     } catch (error) {
       toast.error('Ocurrio un error: ' + error, {
         autoClose: 2500

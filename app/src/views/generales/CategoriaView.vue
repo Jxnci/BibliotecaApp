@@ -40,7 +40,6 @@
   </div>
 
   <!-- modlas -->
-
   <div v-if="openModalCreate" class="absolute top-0 left-0 w-screen h-screen backdrop-blur"></div>
   <div v-if="openModalCreate"
     class="modalUser bg-white dark:bg-gray-800 dark:border-gray-900 p-6 rounded-md shadow border">

@@ -21,9 +21,9 @@ return new class extends Migration {
       $table->bigInteger('multa_id')->unsigned()->nullable();
       $table->timestamps();
 
-      $table->foreign('user_id')->references('id')->on('users');
-      $table->foreign('persona_id')->references('id')->on('personas');
-      $table->foreign('multa_id')->references('id')->on('multas');
+      $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+      $table->foreign('persona_id')->references('id')->on('personas')->onDelete('cascade');
+      $table->foreign('multa_id')->references('id')->on('multas')->onDelete('cascade');
     });
   }
 

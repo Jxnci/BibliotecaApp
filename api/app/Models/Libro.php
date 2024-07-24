@@ -18,4 +18,7 @@ class Libro extends Model {
   public function categoria() {
     return $this->belongsTo(Categoria::class);
   }
+  public function autores() {
+    return $this->belongsToMany(Autor::class, 'detalle_autors', 'libro_id', 'autor_id');
+  }
 }

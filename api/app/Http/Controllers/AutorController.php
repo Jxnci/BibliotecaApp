@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Autor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class AutorController extends Controller {
   /**
@@ -22,7 +23,7 @@ class AutorController extends Controller {
       });
     }
 
-    $autores = $query->paginate($limit);
+    $autores = $query->orderBy('id', 'desc')->paginate($limit);
 
     return response()->json($autores, 200);
   }
@@ -38,14 +39,45 @@ class AutorController extends Controller {
    * Store a newly created resource in storage.
    */
   public function store(Request $request) {
-    //
+    $validator = Validator::make($request->all(), [
+      'nombres' => 'required|string|max:255',
+      'apellidos' => 'required|string|max:255',
+      'nacimiento' => 'required|date',
+    ], [
+      'required' => ':attribute es requerido',
+    ]);
+
+    if ($validator->fails()) {
+      return response()->json([
+        'error' => true,
+        'mensaje' => 'Errores de validación',
+        'errors' => $validator->errors()
+      ], 422);
+    }
+
+    $autor = new Autor();
+    $autor->nombres = $request->input('nombres');
+    $autor->apellidos = $request->input('apellidos');
+    $autor->nacimiento = $request->input('nacimiento');
+
+    if ($autor->save()) {
+      return response()->json([
+        'data' => $autor,
+        'mensaje' => 'Creado exitosamente'
+      ]);
+    } else {
+      return response()->json([
+        'error' => true,
+        'mensaje' => 'Error al crear'
+      ], 500);
+    }
   }
 
   /**
    * Display the specified resource.
    */
-  public function show(Autor $autor) {
-    $res = Autor::where('id', $autor->id)->get();
+  public function show($id) {
+    $res = Autor::where('id', $id)->get();
     if (isset($res)) {
       return response()->json([
         'data' => $res,
@@ -69,14 +101,65 @@ class AutorController extends Controller {
   /**
    * Update the specified resource in storage.
    */
-  public function update(Request $request, Autor $autor) {
-    //
+  public function update(Request $request, $autor_id) {
+    $validator = Validator::make($request->all(), [
+      'nombres' => 'required|string|max:255',
+      'apellidos' => 'required|string|max:255',
+      'nacimiento' => 'required|date',
+    ], [
+      'required' => ':attribute es requerido',
+    ]);
+
+    if ($validator->fails()) {
+      return response()->json([
+        'error' => true,
+        'mensaje' => 'Errores de validación',
+        'errors' => $validator->errors()
+      ], 422);
+    }
+    $autor = Autor::findOrFail($autor_id);
+    $autor->nombres = $request->input('nombres');
+    $autor->apellidos = $request->input('apellidos');
+    $autor->nacimiento = $request->input('nacimiento');
+
+    if ($autor->save()) {
+      return response()->json([
+        'data' => $autor,
+        'mensaje' => 'Actualizado exitosamente'
+      ]);
+    } else {
+      return response()->json([
+        'error' => true,
+        'mensaje' => 'Error al actualizar'
+      ], 500);
+    }
   }
 
   /**
    * Remove the specified resource from storage.
    */
-  public function destroy(Autor $autor) {
-    //
+  public function destroy($autor_id) {
+    $autor = Autor::findOrFail($autor_id);
+    $tieneLibros = $autor->libros()->exists();
+    if (!$tieneLibros) {
+      $res = $autor->delete();
+      if ($res) {
+        return response()->json([
+          'data' => $autor,
+          'mensaje' => "Eliminado correctamente"
+        ]);
+      } else {
+        return response()->json([
+          'error' => true,
+          'mensaje' => "Error al eliminar",
+          'detalles' => $autor
+        ]);
+      }
+    } else {
+      return response()->json([
+        'error' => true,
+        'mensaje' => "Hay libros relacionados a este autor",
+      ]);
+    }
   }
 }
