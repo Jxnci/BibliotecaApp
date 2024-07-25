@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DetallePrestamo;
 use App\Models\Multa;
+use App\Models\Prestamo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class MultaController extends Controller {
   /**
@@ -34,7 +37,48 @@ class MultaController extends Controller {
    * Store a newly created resource in storage.
    */
   public function store(Request $request) {
-    //
+    $validator = Validator::make($request->all(), [
+      'asunto' => 'required|string',
+      'monto' => 'required|numeric',
+      'prestamo_id' => 'required|integer',
+    ], [
+      'required' => ':attribute es requerido',
+    ]);
+
+    if ($validator->fails()) {
+      return response()->json([
+        'error' => true,
+        'mensaje' => 'Errores de validación',
+        'errors' => $validator->errors()
+      ], 422);
+    }
+
+    $multa = new Multa();
+    $multa->asunto = $request->input('asunto');
+    $multa->monto = $request->input('monto');
+
+    //actualizar detalle prestamos actualizando la multa_id
+
+    if ($multa->save()) {
+
+      $multaId = $multa->id;
+      $prestamoId = $request->input('prestamo_id');
+      $prestamo = Prestamo::where('id', $prestamoId)->first();
+      if ($prestamo) {
+          $prestamo->multa_id = $multaId;
+          $prestamo->save();
+      }
+
+      return response()->json([
+        'data' => $multa,
+        'mensaje' => 'Creado exitosamente'
+      ]);
+    } else {
+      return response()->json([
+        'error' => true,
+        'mensaje' => 'Error al crear'
+      ], 500);
+    }
   }
 
   /**

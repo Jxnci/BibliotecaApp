@@ -77,7 +77,6 @@ class PrestamoController extends Controller {
         'mensaje' => 'Error al crear'
       ], 500);
     }
-
   }
 
   /**
@@ -112,7 +111,35 @@ class PrestamoController extends Controller {
    * Update the specified resource in storage.
    */
   public function update(Request $request, Prestamo $prestamo) {
-    //
+    $validator = Validator::make($request->all(), [
+      'fecha_inicio' => 'required|date',
+      'fecha_fin' => 'nullable|date',
+    ], [
+      'required' => ':attribute es requerido',
+    ]);
+
+    if ($validator->fails()) {
+      return response()->json([
+        'error' => true,
+        'mensaje' => 'Errores de validación',
+        'errors' => $validator->errors()
+      ], 422);
+    }
+
+    $prestamo->fecha_inicio = $request->input('fecha_inicio');
+    $prestamo->fecha_fin = $request->input('fecha_fin');
+
+    if ($prestamo->save()) {
+      return response()->json([
+        'data' => $prestamo,
+        'mensaje' => 'Aactualizado exitosamente'
+      ]);
+    } else {
+      return response()->json([
+        'error' => true,
+        'mensaje' => 'Error al actualizar'
+      ], 500);
+    }
   }
 
   /**

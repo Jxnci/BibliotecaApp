@@ -385,7 +385,6 @@ const service = new LibrosService();
 const libros = ref([]);
 const libroId = ref([]);
 const categorias = ref([]);
-const categoriasSearch = ref([]);
 const ItemEdit = ref([]);
 const item_id = ref('');
 const state = ref(true);
@@ -553,14 +552,6 @@ onMounted(async () => {
   // }
 });
 
-const deleteLibro = async (id) => {
-  await service.deleteById(id);
-  toast.success("Operacion realizada", {
-    autoClose: 2500,
-  });
-  fetchLibros('', '', currentPage.value);
-  open.value = false;
-}
 const deleteAutor = async (autor_id, libro_id) => {
   await service.deleteDetalleAutor(autor_id, libro_id);
   toast.success("Operacion realizada", {
