@@ -1,4 +1,11 @@
-# app
+# Aplicacion para biblioteca La Libertad
+
+## Integrantes
+
+	- Urdanivia Coral Janci
+	- Mautino Huerta Fernando
+	- Espinoza Chavez Luis
+	- Garro Torres Pablo
 
 This template should help get you started developing with Vue 3 in Vite.
 
@@ -56,3 +63,22 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 - Database agnostic [schema migrations](https://laravel.com/docs/migrations).
 - [Robust background job processing](https://laravel.com/docs/queues).
 - [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+
+## Project Setup
+
+```sh
+composer install
+```
+
+### migration to data base
+
+```sh
+php artisan db:migrate --seed
+```
+
+### exec serve
+
+```sh
+php artisan serve
+```
+
