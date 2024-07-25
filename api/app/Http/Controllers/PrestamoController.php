@@ -13,11 +13,16 @@ class PrestamoController extends Controller {
     $limit = $request->input('limit', 1) * 10;
     $fechaInicio = $request->input('fecha_inicio');
     $fechaFin = $request->input('fecha_fin');
+    $nombres = $request->input('nombres');
 
-    $query = Prestamo::with('persona:id,nombres,apellidos,celular,tipo_id', 'persona.tipo:id,descripcion', 'user:id,name', 'multa:id,asunto,monto');
+    $query = Prestamo::query()->join('personas', 'personas.id', '=', 'prestamos.persona_id')
+      ->with('persona:id,nombres,apellidos,celular,tipo_id', 'persona.tipo:id,descripcion', 'user:id,name', 'multa:id,asunto,monto')->select('prestamos.*');
 
+    if ($nombres) {
+      $query->where('personas.nombres', 'like', "%{$nombres}%");
+    }
     if ($fechaInicio && $fechaFin) {
-      $query->whereBetween('fecha_inicio', [$fechaInicio, $fechaFin]);
+      $query->whereBetween('prestamos.fecha_inicio', [$fechaInicio, $fechaFin]);
     }
 
     $prestamos = $query->paginate($limit);
@@ -76,6 +81,28 @@ class PrestamoController extends Controller {
    * Remove the specified resource from storage.
    */
   public function destroy(Prestamo $prestamo) {
-    //
+    try {
+      // Cambiar el estado a 3 en lugar de eliminar
+      $prestamo->estado = 2;
+      $res = $prestamo->save();
+
+      if ($res) {
+        return response()->json([
+          'data' => $prestamo,
+          'mensaje' => "Prestamo anulado"
+        ]);
+      } else {
+        return response()->json([
+          'error' => true,
+          'mensaje' => "Error al anular préstamo"
+        ]);
+      }
+    } catch (\Illuminate\Database\QueryException $e) {
+      return response()->json([
+        'error' => true,
+        'mensaje' => "Error al actualizar el estado del préstamo",
+        'detalle' => $e->getMessage()
+      ]);
+    }
   }
 }

@@ -19,12 +19,11 @@
           </a>
 
           <h1 class="mt-6 text-2xl font-bold text-gray-900 dark:text-white sm:text-3xl md:text-4xl">
-            Fidelo Administracion 🤖
+            Biblioteca La Libertad 🤖
           </h1>
 
           <p class="mt-4 leading-relaxed text-gray-500 dark:text-gray-400">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi nam
-            dolorum aliquam, quibusdam aperiam voluptatum.
+            Adminstracion de prestamos de libros en el colegio La Libertad.
           </p>
 
           <form action="#" class="mt-8 grid grid-cols-6 gap-6">
@@ -51,13 +50,10 @@
 
             <div class="col-span-6">
               <p class="text-sm text-gray-500 dark:text-gray-400">
-                By creating an account, you agree to our
+                Si necesitas ayuda, ingresa a
                 <a href="#" class="text-gray-700 underline dark:text-gray-200">
-                  terms and conditions
+                  soporte
                 </a>
-                and
-                <a href="#" class="text-gray-700 underline dark:text-gray-200">
-                  privacy policy </a>.
               </p>
             </div>
 

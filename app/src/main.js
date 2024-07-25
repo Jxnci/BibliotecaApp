@@ -24,7 +24,8 @@ import {
   RiDeleteBinLine,
   BiEye,
   IoSettingsSharp,
-  MdLibrarybooksRound
+  MdLibrarybooksRound,
+  MdCommentsdisabledOutlined
 } from 'oh-vue-icons/icons'
 
 addIcons(
@@ -44,7 +45,8 @@ addIcons(
   RiDeleteBinLine,
   BiEye,
   IoSettingsSharp,
-  MdLibrarybooksRound
+  MdLibrarybooksRound,
+  MdCommentsdisabledOutlined
 )
 
 

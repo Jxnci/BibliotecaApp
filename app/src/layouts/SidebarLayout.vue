@@ -117,7 +117,7 @@ const isRouteActive = (routeName) => {
 };
 const logout = () => {
   // store.logout();
-  router.push({ name: "home" });
+  router.push({ name: "login" });
 };
 
 
