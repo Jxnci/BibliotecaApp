@@ -9,6 +9,7 @@ use App\Http\Controllers\LibroController;
 use App\Http\Controllers\MultaController;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\PrestamoController;
+use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\TipoController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,7 @@ Route::get('testAPI', function () {
   Route::apiResource("prestamos", PrestamoController::class);
   Route::apiResource("personas", PersonaController::class);
   Route::apiResource("multas", MultaController::class);
+  Route::apiResource("reportes", ReporteController::class);
   
   Route::apiResource("detalleautores", DetalleAutorController::class);
   Route::delete("detalleautores", [DetalleAutorController::class, 'destroyDetalleAutor']);
