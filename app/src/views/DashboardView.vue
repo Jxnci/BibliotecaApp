@@ -17,7 +17,7 @@
           </svg>
         </div>
         <div class="flex flex-col justify-center align-middle">
-          <p class="text-3xl font-semibold leadi" v-if="datos">{{ datos.numeroPrestamos }}</p>
+          <p class="text-3xl font-semibold leadi" v-if="datosdsh">{{ datosdsh.numeroPrestamos }}</p>
           <p class="capitalize">Prestamos Realizados</p>
         </div>
       </div>
@@ -38,7 +38,7 @@
           </svg>
         </div>
         <div class="flex flex-col justify-center align-middle">
-          <p class="text-3xl font-semibold leadi" v-if="datos">{{ datos.numeroPersonas }}</p>
+          <p class="text-3xl font-semibold leadi" v-if="datosdsh">{{ datosdsh.numeroPersonas }}</p>
           <p class="capitalize">Personas Atendidas</p>
         </div>
       </div>
@@ -59,7 +59,7 @@
           </svg>
         </div>
         <div class="flex flex-col justify-center align-middle">
-          <p class="text-3xl font-semibold leadi" v-if="datos">{{ datos.numeroLibros }}</p>
+          <p class="text-3xl font-semibold leadi" v-if="datosdsh">{{ datosdsh.numeroLibros }}</p>
           <p class="capitalize">libros Registrados</p>
         </div>
       </div>
@@ -73,7 +73,7 @@
           </svg>
         </div>
         <div class="flex flex-col justify-center align-middle">
-          <p class="text-3xl font-semibold leadi" v-if="datos">{{ datos.numeroAutores }}</p>
+          <p class="text-3xl font-semibold leadi" v-if="datosdsh">{{ datosdsh.numeroAutores }}</p>
           <p class="capitalize">Autores Disponibles</p>
         </div>
       </div>
@@ -119,12 +119,13 @@ const options = {
 
 
 
-const datos = ref([])
+const datosdsh = ref([])
 const service = new ReportesService();
 let myChart = null; 
 
 onMounted(async () => {
   try {
+    datosdsh.value = await service.fetchReportes();
     const datos = await service.fetchReportes();
     
     // Actualiza los datos del gráfico

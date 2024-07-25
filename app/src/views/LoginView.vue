@@ -26,27 +26,27 @@
             Adminstracion de prestamos de libros en el colegio La Libertad.
           </p>
 
-          <form action="#" class="mt-8 grid grid-cols-6 gap-6">
+          <div class="mt-8 grid grid-cols-6 gap-6">
             <div class="col-span-6 ">
               <label for="FirstName" class="block text-sm font-medium text-gray-700 dark:text-gray-200">
                 Correo electronico
               </label>
 
-              <input type="text" id="FirstName" name="first_name"
+              <input type="text" id="FirstName" name="first_name" v-model="usuario"
                 class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200" />
             </div>
 
 
             <div class="col-span-6">
-              <label for="Email" class="block text-sm font-medium text-gray-700 dark:text-gray-200">
+              <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-200">
                 Contraseña
               </label>
 
-              <input type="email" id="Email" name="email"
+              <input type="password" id="Email" name="email" v-model="clave"
                 class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200" />
             </div>
 
-           
+
 
             <div class="col-span-6">
               <p class="text-sm text-gray-500 dark:text-gray-400">
@@ -58,15 +58,37 @@
             </div>
 
             <div class="col-span-6 sm:flex sm:items-center sm:gap-4 justify-center">
-              <router-link :to="{name:'home'}"
+              <button @click="iniciarSesion"
                 class="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500 dark:hover:bg-blue-700 dark:hover:text-white">
                 Iniciar sesion
-              </router-link>
+              </button>
 
             </div>
-          </form>
+          </div>
         </div>
       </main>
     </div>
   </section>
 </template>
+
+<script setup>
+import router from '@/router'
+import { useRoute } from 'vue-router'
+import { toast } from 'vue3-toastify';
+import { ref } from 'vue'
+import 'vue3-toastify/dist/index.css';
+
+const route = useRoute();
+const usuario = ref('')
+const clave = ref('')
+const iniciarSesion = async (id) => {
+
+  if (usuario.value == 'admin' && clave.value == 'admin') {
+    router.push({ name: "dashboard" });
+  } else {
+    toast.error("Credenciales incorrectas", {
+      autoClose: 2500,
+    });
+  }
+};
+</script>

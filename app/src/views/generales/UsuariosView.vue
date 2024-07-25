@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Usuarios</h1>
-    <p>Contenido relacionado con Usuarios.</p>
+    <p></p>
   </div>
 </template>
 

@@ -5,10 +5,10 @@
         <div class="flex items-center gap-x-3">
           <h2 class="text-lg font-medium text-gray-800 dark:text-white">Reportes</h2>
           <span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400"
-            v-if="datos">{{ datos.numeroPersonas }}
+            v-if="datossh">{{ datossh.numeroPersonas }}
             Personas</span>
           <span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400"
-            v-if="datos">{{ datos.numeroPrestamos }}
+            v-if="datossh">{{ datossh.numeroPrestamos }}
             Prestamos</span>
         </div>
         <p class="mt-1 text-sm text-gray-500 dark:text-gray-300">Selecciona segun el parametro de busqueda.</p>
@@ -70,12 +70,13 @@ const options = {
 
 
 
-const datos = ref([])
+const datossh = ref([])
 const service = new ReportesService();
 let myChart = null; 
 
 onMounted(async () => {
   try {
+    datossh.value = await service.fetchReportes();
     const datos = await service.fetchReportes();
     
     // Actualiza los datos del gráfico

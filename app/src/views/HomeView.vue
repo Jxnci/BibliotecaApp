@@ -22,7 +22,6 @@
 <script setup>
 import { RouterView, useRoute } from "vue-router";
 import SidebarLayout from "@/layouts/SidebarLayout.vue";
-// import Breadcrumbs from "@/components/Breadcrumbs.vue";
 
 const route = useRoute();
 
