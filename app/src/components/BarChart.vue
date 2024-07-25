@@ -39,23 +39,7 @@ export default {
           backgroundColor: 'green',
           tension: 0.3,
           pointRadius: 3,
-          data: [14, 20, 17, 9, 14, 16, 12, 22, 12, 17, 18, 12]
-        }, {
-          label: 'No devuelto',
-          title: 'asd',
-          borderColor: "red",
-          backgroundColor: 'red',
-          tension: 0.3,
-          pointRadius: 3,
-          data: [16, 12, 22, 12, 17, 18, 12, 14, 20, 17, 9, 14]
-        }, {
-          label: 'Observado',
-          title: 'asd',
-          borderColor: "orange",
-          backgroundColor: 'orange',
-          tension: 0.3,
-          pointRadius: 3,
-          data: [16, 12, 14, 20, 17, 9, 14, 22, 12, 17, 5, 18]
+          data: []
         }]
       },
       chartOptions: {

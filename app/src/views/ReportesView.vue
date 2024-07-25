@@ -4,10 +4,12 @@
       <div>
         <div class="flex items-center gap-x-3">
           <h2 class="text-lg font-medium text-gray-800 dark:text-white">Reportes</h2>
-          <span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">36
-            prestamos</span>
-          <span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">58
-            Usuarios</span>
+          <span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400"
+            v-if="datos">{{ datos.numeroPersonas }}
+            Personas</span>
+          <span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400"
+            v-if="datos">{{ datos.numeroPrestamos }}
+            Prestamos</span>
         </div>
         <p class="mt-1 text-sm text-gray-500 dark:text-gray-300">Selecciona segun el parametro de busqueda.</p>
       </div>
@@ -32,12 +34,67 @@
       </div>
     </div>
     <div class="w-full">
-      <BarChart class="w-[90%] p-5"/>
+      <canvas ref="chartCanvas"></canvas>
     </div>
 
   </section>
 </template>
 
 <script setup>
-import BarChart from '../../src/components/BarChart.vue'
+import { onMounted, ref } from "vue";
+import ReportesService from "../services/ReportesService.js";
+
+import { Chart } from 'chart.js/auto';
+
+const chartCanvas = ref(null);
+
+const labels = [];
+const chartData = ref({
+  labels: labels,
+  datasets: [{
+    label: '# de Préstamos',
+    data: [], // Inicialmente vacío, se llenará después
+    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+    borderColor: 'rgba(75, 192, 192, 1)',
+    borderWidth: 1
+  }]
+});
+
+const options = {
+  scales: {
+    y: {
+      beginAtZero: true
+    }
+  }
+};
+
+
+
+const datos = ref([])
+const service = new ReportesService();
+let myChart = null; 
+
+onMounted(async () => {
+  try {
+    const datos = await service.fetchReportes();
+    
+    // Actualiza los datos del gráfico
+    chartData.value.datasets[0].data = datos.datosMensuales;
+
+    // Si ya existe un gráfico, destrúyelo antes de crear uno nuevo
+    if (myChart) {
+      myChart.destroy();
+    }
+
+    // Inicializa el gráfico
+    myChart = new Chart(chartCanvas.value, {
+      type: 'line', // Cambia el tipo de gráfico según tus necesidades
+      data: chartData.value,
+      options
+    });
+  } catch (error) {
+    console.error('Error fetching chart data:', error);
+  }
+});
+
 </script>
