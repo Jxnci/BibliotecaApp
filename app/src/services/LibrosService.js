@@ -63,7 +63,7 @@ class LibrosService {
   async deleteById(id) {
     try {
       const URL_API = settings.environments.dev.api.uri
-      const uri = `${URL_API}/personas/${id}`
+      const uri = `${URL_API}/libros/${id}`
       const rawResponse = await fetch(uri, {
         method: 'DELETE',
         headers: {

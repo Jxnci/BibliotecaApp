@@ -31,8 +31,8 @@
         </button>
       </div>
     </div>
-    <div>
-      <BarChart />
+    <div class="w-full">
+      <BarChart class="w-[90%] p-5"/>
     </div>
 
   </section>

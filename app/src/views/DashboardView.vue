@@ -76,13 +76,18 @@
     </div>
   </section>
 
-  <div class="w-full bg-gray-50 border rounded-md md:h-80 h-full py-2 ps-4 my-4">
-    <!-- <ChartComponent /> -->
+  <div class="w-full bg-gray-50 border rounded-md h-full py-2 ps-4 my-4 flex gap-2">
+    <div class="flex h-72">
+      <BarChart class="w-full "/>
+    </div>
+    <div class="flex h-72">
+      <BarChart class="w-full "/>
+    </div>
   </div>
 </template>
 
 <script setup>
-// import ChartComponent from '@/components/ChartComponent.vue';
+import BarChart from '../../src/components/BarChart.vue'
 
 
 </script>

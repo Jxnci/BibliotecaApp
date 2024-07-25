@@ -1,5 +1,6 @@
 <template>
   <section>
+    <!-- Busqueda -->
     <div class="flex justify-between ">
       <div class="flex items-center gap-x-2 text-base">
         <span class="text-gray-800 dark:text-white ">Buscar</span>
@@ -487,6 +488,20 @@ const createItem = async () => {
     console.log('Error creating item:', error);
   }
 };
+const deleteItem = async (id) => {
+  state.value = await service.deleteById(id);
+  if (!state.value.error) {
+    toast.success("Operacion realizada", {
+      autoClose: 3000,
+    });
+    fetchLibros('', '', currentPage.value);
+  } else {
+    toast.warn(state.value.mensaje, {
+      autoClose: 3000,
+    });
+  }
+  openModalDelete.value = false;
+}
 const handleSearch = async (input) => {
   // if (inputBuscar.value.length >= 2 || inputBuscar.value.length === 0) {
 
