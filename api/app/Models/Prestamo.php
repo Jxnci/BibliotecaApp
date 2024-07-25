@@ -24,4 +24,8 @@ class Prestamo extends Model {
   public function multa() {
     return $this->belongsTo(Multa::class);
   }
+
+  public function libros() {
+    return $this->belongsToMany(Libro::class, 'detalle_prestamos', 'prestamo_id', 'libro_id');
+}
 }

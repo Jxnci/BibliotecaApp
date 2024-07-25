@@ -474,15 +474,27 @@ const initializeCreateItem = () => {
 };
 const createItem = async () => {
   try {
+    if (!newItem.value.titulo || !newItem.value.codigo || !newItem.value.categoria_id) {
+      toast.error("Faltan datos obligatorios", {
+        autoClose: 3000,
+      });
+      return;
+    }
+    if (isNaN(newItem.value.paginas) || newItem.value.paginas <= 0) {
+      toast.error("El número de páginas debe ser un número positivo", {
+        autoClose: 3000,
+      });
+      return;
+    }
+
     const response = await service.create(newItem.value);
     if (response && response.data) {
       newItemID.value = response.data.id
-      console.log(response)
       toast.success("Operacion realizada", {
         autoClose: 3000,
       });
-      // openModalCreate.value = false;
       fetchLibros('', '', currentPage.value);
+
     }
   } catch (error) {
     console.log('Error creating item:', error);

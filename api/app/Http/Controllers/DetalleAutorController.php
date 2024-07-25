@@ -89,19 +89,19 @@ class DetalleAutorController extends Controller {
     $libro_id = $request->input('libro_id');
 
     $detAutor = DetalleAutor::where('autor_id', $autor_id)
-                            ->where('libro_id', $libro_id)
-                            ->first();
+      ->where('libro_id', $libro_id)
+      ->first();
 
     if ($detAutor) {
-        $detAutor->delete();
-        return response()->json([
-            'mensaje' => 'Eliminado correctamente'
-        ]);
+      $detAutor->delete();
+      return response()->json([
+        'mensaje' => 'Eliminado correctamente'
+      ]);
     } else {
-        return response()->json([
-            'error' => true,
-            'mensaje' => 'Registro no encontrado'
-        ], 404);
+      return response()->json([
+        'error' => true,
+        'mensaje' => 'Registro no encontrado'
+      ], 404);
     }
-}
+  }
 }

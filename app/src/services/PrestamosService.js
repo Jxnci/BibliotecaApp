@@ -4,7 +4,7 @@ import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 
 class PrestamosService {
-  async fetchAll(buscar,page = 1) {
+  async fetchAll(buscar, page = 1) {
     try {
       const URL_API = settings.environments.prod.api.uri
       const uri = `${URL_API}/prestamos?page=${page}&nombres=${buscar}`
@@ -17,7 +17,7 @@ class PrestamosService {
       console.log(error)
     }
   }
-  async fetchAllBtFecha(finicio, ffin,page = 1) {
+  async fetchAllBtFecha(finicio, ffin, page = 1) {
     try {
       const URL_API = settings.environments.prod.api.uri
       const uri = `${URL_API}/prestamos?page=${page}&fecha_inicio=${finicio}&fecha_fin=${ffin}`
@@ -46,8 +46,7 @@ class PrestamosService {
       console.log(error)
     }
   }
-
-  async deleteById(id) {
+  async deleteById(id,estado) {
     try {
       const URL_API = settings.environments.dev.api.uri
       const uri = `${URL_API}/prestamos/${id}`
@@ -55,7 +54,8 @@ class PrestamosService {
         method: 'DELETE',
         headers: {
           'Content-Type': 'Application/json'
-        }
+        },
+        body: JSON.stringify({ estado })
       })
       const response = await rawResponse.json()
       return response
@@ -65,6 +65,5 @@ class PrestamosService {
       })
     }
   }
-
 }
 export default PrestamosService

@@ -25,7 +25,10 @@ import {
   BiEye,
   IoSettingsSharp,
   MdLibrarybooksRound,
-  MdCommentsdisabledOutlined
+  MdCommentsdisabledOutlined,
+  MdPreviewOutlined,
+  IoTimerOutline,
+  MdCheckboxOutlined
 } from 'oh-vue-icons/icons'
 
 addIcons(
@@ -46,7 +49,10 @@ addIcons(
   BiEye,
   IoSettingsSharp,
   MdLibrarybooksRound,
-  MdCommentsdisabledOutlined
+  MdCommentsdisabledOutlined,
+  MdPreviewOutlined,
+  IoTimerOutline,
+  MdCheckboxOutlined
 )
 
 

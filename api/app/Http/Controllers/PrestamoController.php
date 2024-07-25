@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Prestamo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PrestamoController extends Controller {
   /**
@@ -25,7 +26,7 @@ class PrestamoController extends Controller {
       $query->whereBetween('prestamos.fecha_inicio', [$fechaInicio, $fechaFin]);
     }
 
-    $prestamos = $query->paginate($limit);
+    $prestamos = $query->orderBy('id', 'desc')->paginate($limit);
 
     return response()->json($prestamos, 200);
   }
@@ -41,24 +42,61 @@ class PrestamoController extends Controller {
    * Store a newly created resource in storage.
    */
   public function store(Request $request) {
-    //
+    $validator = Validator::make($request->all(), [
+      'fecha_inicio' => 'nullable|date',
+      'fecha_fin' => 'required|date',
+      'user_id' => 'required|integer',
+      'persona_id' => 'required|integer',
+    ], [
+      'required' => ':attribute es requerido',
+    ]);
+
+    if ($validator->fails()) {
+      return response()->json([
+        'error' => true,
+        'mensaje' => 'Errores de validación',
+        'errors' => $validator->errors()
+      ], 422);
+    }
+
+    $prestamo = new Prestamo();
+    $prestamo->estado = 1;
+    $prestamo->fecha_inicio = $request->input('fecha_inicio');
+    $prestamo->fecha_fin = $request->input('fecha_fin');
+    $prestamo->user_id = $request->input('user_id');
+    $prestamo->persona_id = $request->input('persona_id');
+
+    if ($prestamo->save()) {
+      return response()->json([
+        'data' => $prestamo,
+        'mensaje' => 'Creado exitosamente'
+      ]);
+    } else {
+      return response()->json([
+        'error' => true,
+        'mensaje' => 'Error al crear'
+      ], 500);
+    }
+
   }
 
   /**
    * Display the specified resource.
    */
   public function show(Prestamo $prestamo) {
-    $res = Prestamo::with('persona:id,nombres,apellidos,celular,tipo_id', 'persona.tipo:id,descripcion', 'user:id,name', 'multa:id,asunto,monto')
-      ->where('id', $prestamo->id)->get();
-    if (isset($res)) {
+    $res = Prestamo::with('persona:id,nombres,apellidos,celular,tipo_id', 'persona.tipo:id,descripcion', 'user:id,name', 'multa:id,asunto,monto', 'libros:id,titulo,codigo')
+      ->where('id', $prestamo->id)
+      ->get();
+
+    if ($res->isNotEmpty()) {
       return response()->json([
         'data' => $res,
-        'mensaje' => "Prestamo encontrado"
+        'mensaje' => "Préstamo encontrado"
       ]);
     } else {
       return response()->json([
         'error' => true,
-        'mensaje' => "Prestamo no encontrado"
+        'mensaje' => "Préstamo no encontrado"
       ]);
     }
   }
@@ -80,10 +118,13 @@ class PrestamoController extends Controller {
   /**
    * Remove the specified resource from storage.
    */
-  public function destroy(Prestamo $prestamo) {
+  public function destroy(Request $request, Prestamo $prestamo) {
+    $validated = $request->validate([
+      'estado' => 'required|integer',
+    ]);
+    $prestamo->estado = $validated['estado'];
+
     try {
-      // Cambiar el estado a 3 en lugar de eliminar
-      $prestamo->estado = 2;
       $res = $prestamo->save();
 
       if ($res) {

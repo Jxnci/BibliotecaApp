@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- Busqueda -->
     <div class="flex justify-between  mb-3">
       <div class="flex flex-row items-center justify-between text-base w-full">
         <div class="flex gap-2 items-center">
@@ -45,7 +46,7 @@
         <tbody v-if="prestamos">
           <tr v-for="prestamo in prestamos" :key="prestamo.id" class="libro">
             <td class="px-3 py-1 text-sm font-medium text-gray-500 whitespace-nowrap">
-              <h2 class="font-medium text-gray-800 dark:text-white ">{{ prestamo.persona.nombres }}</h2>
+              <h2 class="font-medium text-gray-800 dark:text-white ">{{ prestamo.persona.nombres }} {{ prestamo.persona.apellidos }}</h2>
               <p class="text-sm font-normal text-gray-600 dark:text-gray-400 -mt-1">{{ prestamo.persona.tipo.descripcion
                 }}</p>
             </td>
@@ -65,9 +66,9 @@
             </td>
             <td class=" py-1 text-sm font-medium text-gray-500 whitespace-nowrap">
               <p class="font-normal text-gray-600 dark:text-white ">
-                {{ prestamo.multa.asunto }}</p>
+                {{ prestamo.multa ? prestamo.multa.asunto : 'Sin Multa' }}</p>
               <p class="text-sm font-normal text-gray-600 dark:text-white -mt-1">
-                <span class="font-semibold">Monto : </span>{{ prestamo.multa.monto }}
+                <span class="font-semibold">Monto : </span>{{ prestamo.multa ? prestamo.multa.monto : '0.00' }}
               </p>
             </td>
             <td class=" py-1 text-sm font-medium text-gray-500 whitespace-nowrap">
@@ -78,18 +79,29 @@
               </p>
             </td>
             <td class=" py-1 pe-2 text-sm font-medium text-gray-500 whitespace-nowrap flex justify-center">
-              <div class="flex justify-center gap-x-2" v-if="prestamo.estado == 1">
+              <div class="flex justify-center " v-if="prestamo.estado == 1">
+                <button @click="LibroById(prestamo.id)"
+                  class="text-gray-500 transition-colors duration-200 dark:hover:text-blue-500 dark:text-gray-300 hover:text-blue-500 focus:outline-none">
+                  <v-icon name="md-preview-outlined" class="w-7 h-7 p-1" title="Detalles"></v-icon>
+                </button>
                 <button
                   class="text-gray-700 transition-colors duration-200 dark:hover:text-yellow-500 dark:text-gray-300 hover:text-yellow-500 focus:outline-none">
                   <v-icon name="la-edit-solid" class="w-7 h-7 p-1" title="Editar"></v-icon>
                 </button>
-                <button @click="modal(prestamo.id, 'Anular Prestamo')"
+                <button @click="modal(prestamo.id, 'Anular')"
                   class="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none">
-                  <v-icon name="md-commentsdisabled-outlined" class="w-7 h-7 p-1" title="Anular Prestamo"></v-icon>
+                  <v-icon name="md-commentsdisabled-outlined" class="w-7 h-7 p-1" title="Anular"></v-icon>
+                </button>
+                <button @click="modal(prestamo.id, 'Finalizar')"
+                  class="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none">
+                  <v-icon name="md-checkbox-outlined" class="w-7 h-7 p-1" title="Finalizar"></v-icon>
                 </button>
               </div>
               <div v-else class=" text-center w-max p-1">
-                Finalizado
+                <button @click="LibroById(prestamo.id)"
+                  class="text-gray-500 transition-colors duration-200 dark:hover:text-blue-500 dark:text-gray-300 hover:text-blue-500 focus:outline-none">
+                  <v-icon name="md-preview-outlined" class="w-7 h-7 p-1" title="Detalles"></v-icon>
+                </button>
               </div>
             </td>
           </tr>
@@ -129,12 +141,102 @@
   </div>
 
   <!-- Modals -->
+
+  <div v-if="openModalDetalles" class=" absolute top-0 left-0 w-screen h-screen backdrop-blur"></div>
+  <div v-if="openModalDetalles"
+    class="modalUser bg-white dark:bg-gray-800 dark:border-gray-900 p-6 rounded-md shadow border">
+    <h2 class="mb-4 font-semibold text-lg dark:text-gray-100">Información de prestamo</h2>
+    <div v-if="prestamosId.id" class="flex flex-col text-gray-800">
+      <div class="flex flex-row gap-3 w-full">
+        <div class="flex flex-col gap-3 w-full">
+          <div class="flex">
+            <span class="italic pe-2">Del</span>
+            <div class="font-semibold">{{ prestamosId.fecha_inicio }}</div>
+            <span class="italic px-2">al</span>
+            <div class="font-semibold">{{ prestamosId.fecha_fin }}</div>
+          </div>
+          <div class="flex items-center">
+            <span class="pe-2 font-semibold">Estado: </span>
+            <span v-if="prestamosId.estado == 1"
+              class="bg-orange-100 border px-1 border-orange-500 text-orange-500 rounded-full">No devuelto</span>
+            <span v-if="prestamosId.estado == 2"
+              class="bg-red-100 border px-1 border-red-500 text-red-500 rounded-full">Anulado</span>
+            <span v-if="prestamosId.estado == 3"
+              class="bg-green-100 border px-1 border-green-500 text-green-500 rounded-full">Devuelto</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="pe-2 font-semibold">Usuario Creador: </span>
+            <div class="">{{ prestamosId.user.name }}</div>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-semibold">Prestamo a persona:</span>
+            <div>{{ prestamosId.persona.nombres }} {{ prestamosId.persona.apellidos }}</div>
+          </div>
+          <div class="flex flex-row ms-2">
+            <span class="font-semibold me-2">Celular:</span>
+            <div>{{ prestamosId.persona.celular }}</div>
+          </div>
+          <div class="flex flex-row ms-2 -mt-3">
+            <span class="font-semibold me-2">Tipo:</span>
+            <div>{{ prestamosId.persona.tipo.descripcion }}</div>
+          </div>
+        </div>
+        <div class="w-full">
+          <div class="flex">
+            <span class="font-semibold me-2">Multa</span>
+          </div>
+          <div class="flex">
+            <span class="font-semibold mx-2 "> Asunto:</span>
+            <div>{{ prestamosId.multa ? prestamo.multa.asunto : 'Sin Multa' }}</div>
+          </div>
+          <div class="flex">
+            <span class="font-semibold mx-2 "> Monto:</span>
+            <div>{{ prestamosId.multa ? prestamo.multa.monto : '0.00'}}</div>
+          </div>
+          <div>
+            <span class="font-semibold me-2">Libros:</span>
+            <div class="flex flex-col mt-2">
+              <div v-for="libro in prestamosId.libros" :key="libro.id" class="border-b text-sm">
+                {{ libro.codigo }} | <span class="italic">{{ libro.titulo }} </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <hr class="shadow mt-2">
+      <div class="flex justify-between space-y-1">
+        <span class="flex items-center text-gray-400">
+          <v-icon name="io-timer-outline" class="w-7 h-7 p-1 "></v-icon>
+          <span class="text-gray-600">Creado: {{ useTime(prestamosId.created_at).value }}</span>
+        </span>
+        <span class="flex items-center text-gray-400">
+          <v-icon name="io-timer-outline" class="w-7 h-7 p-1 "></v-icon>
+          <span class="text-gray-600">Editado: {{ useTime(prestamosId.updated_at).value }}</span>
+        </span>
+      </div>
+    </div>
+    <div v-else class="w-full max-w-md mx-auto animate-pulse p-9">
+      <h1 class="h-2 bg-gray-300 rounded-lg w-52 dark:bg-gray-600"></h1>
+      <p class="w-48 h-2 mt-6 bg-gray-200 rounded-lg dark:bg-gray-700"></p>
+      <p class="w-full h-2 mt-4 bg-gray-200 rounded-lg dark:bg-gray-700"></p>
+      <p class="w-64 h-2 mt-4 bg-gray-200 rounded-lg dark:bg-gray-700"></p>
+      <p class="w-4/5 h-2 mt-4 bg-gray-200 rounded-lg dark:bg-gray-700"></p>
+    </div>
+    <div class="mt-4 flex justify-end gap-2">
+      <button @click="openModalDetalles = false" class="bg-gray-500 px-4 py-1 rounded-md text-white">Cerrar</button>
+    </div>
+  </div>
+
   <div v-if="openModalDelete" class=" absolute top-0 left-0 w-screen h-screen backdrop-blur"></div>
   <div v-if="openModalDelete" class="modal bg-white dark:bg-gray-800 dark:border-gray-900 p-6 rounded-md shadow border">
     <h2 class="mb-2 font-semibold dark:text-gray-100">{{ mensaje_modal }}</h2>
     <p class="mb-2 font-light dark:text-gray-100">¿Esta seguro de realizar esta accion?</p>
     <div class="mt-4 flex justify-end gap-2">
-      <button @click="deleteItem(item_id)" class="bg-green-500 px-4 py-1 rounded-md text-white">Aceptar</button>
+      <button v-if="mensaje_modal == 'Finalizar'" @click="deleteItem(item_id, 3)"
+        class="bg-green-500 px-4 py-1 rounded-md text-white">Si, Finalizar</button>
+      <button v-else @click="deleteItem(item_id, 2)"
+        class="bg-green-500 px-4 py-1 rounded-md text-white">Aceptar</button>
       <button @click="openModalDelete = false" class="bg-red-500 px-4 py-1 rounded-md text-white">Cancelar</button>
     </div>
   </div>
@@ -153,12 +255,13 @@ const modal = (id, mensaje) => {
   mensaje_modal.value = mensaje;
   item_id.value = id;
 }
-
+const openModalDetalles = ref(false)
 const openModalDelete = ref(false)
 const mensaje_modal = ref('')
 
 const service = new PrestamosService();
 const prestamos = ref([]);
+const prestamosId = ref([]);
 const item_id = ref('');
 const inputBuscar = ref('');
 const startDate = ref('');
@@ -199,10 +302,10 @@ const searchByDate = async () => {
   }
 }
 onMounted(async () => {
-  fetchPrestamos('',  1);
+  fetchPrestamos('', 1);
 });
-const deleteItem = async (id) => {
-  state.value = await service.deleteById(id);
+const deleteItem = async (id, estado) => {
+  state.value = await service.deleteById(id, estado);
   if (!state.value.error) {
     toast.success("Operacion realizada", {
       autoClose: 3000,
@@ -215,6 +318,17 @@ const deleteItem = async (id) => {
   }
   openModalDelete.value = false;
 }
+const LibroById = async (id) => {
+  try {
+    if (id) {
+      const response = await service.fetchById(id);
+      prestamosId.value = response.data[0];
+      openModalDetalles.value = true;
+    }
+  } catch (error) {
+    console.log('Error fetching book by ID:', error);
+  }
+};
 </script>
 
 <style scoped>
@@ -229,8 +343,8 @@ const deleteItem = async (id) => {
 .modalUser {
   position: fixed;
   z-index: 999;
-  top: 20%;
-  left: 30%;
-  width: 480px;
+  top: 15%;
+  left: 18%;
+  width: 880px;
 }
 </style>

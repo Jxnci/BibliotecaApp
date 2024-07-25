@@ -21,4 +21,7 @@ class Libro extends Model {
   public function autores() {
     return $this->belongsToMany(Autor::class, 'detalle_autors', 'libro_id', 'autor_id');
   }
+  public function prestamos() {
+    return $this->belongsToMany(Prestamo::class, 'detalle_prestamos', 'libro_id', 'prestamo_id');
+}
 }

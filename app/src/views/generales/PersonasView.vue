@@ -110,7 +110,7 @@
     class="modalUser bg-white dark:bg-gray-800 dark:border-gray-900 p-6 rounded-md shadow border">
     <h2 class="mb-2 font-semibold dark:text-gray-100">Crear Nuevo</h2>
     <div class="sm:flex sm:space-x-6 text-gray-800">
-      <div class="flex flex-col space-y-4">
+      <div class="flex flex-col space-y-4 w-full">
         <div class="flex flex-col w-full">
           <span class="text-sm text-gray-600 font-semibold">Nombres</span>
           <input type="text" v-model="newItem.nombres" class="rounded py-1">
@@ -144,16 +144,16 @@
     class="modalUser bg-white dark:bg-gray-800 dark:border-gray-900 p-6 rounded-md shadow border">
     <h2 class="mb-2 font-semibold dark:text-gray-100">Edicion</h2>
     <div v-if="ItemEdit.id" class="sm:flex sm:space-x-6  text-gray-800">
-      <div class="flex flex-col space-y-4">
+      <div class="flex flex-col space-y-4 w-full">
         <div class="flex flex-col w-full">
           <span class="text-sm text-gray-600 font-semibold">Nombres:</span>
-          <input type="text" v-model="ItemEdit.nombres" class="rounded py-1 mb-2">
+          <input type="text" v-model="ItemEdit.nombres" class="rounded w-full py-1 mb-2">
           <span class="text-sm text-gray-600 font-semibold">Apellidos:</span>
-          <input type="text" v-model="ItemEdit.apellidos" class="rounded py-1 mb-2">
+          <input type="text" v-model="ItemEdit.apellidos" class="rounded w-full py-1 mb-2">
           <span class="text-sm text-gray-600 font-semibold">Celular:</span>
-          <input type="text" v-model="ItemEdit.celular" class="rounded py-1 mb-2">
+          <input type="text" v-model="ItemEdit.celular" class="rounded w-full py-1 mb-2">
           <span class="text-sm text-gray-600 font-semibold">Tipo:</span>
-          <select v-model="ItemEdit.tipo_id" class="rounded py-1 mb-2">
+          <select v-model="ItemEdit.tipo_id" class="rounded w-full py-1 mb-2">
             <option value="1">Estudiante</option>
             <option value="2">Administrativo</option>
             <option value="3">Docente</option>
