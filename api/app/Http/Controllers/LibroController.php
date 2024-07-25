@@ -47,8 +47,8 @@ class LibroController extends Controller {
       'titulo' => 'required|string|max:255',
       'imagen' => 'nullable|string|max:255',
       'codigo' => 'required|string|max:255',
-      'paginas' => 'required|string|max:255',
-      'resena' => 'required|string|max:255',
+      'paginas' => 'required|integer',
+      'resena' => 'required|string',
       'categoria_id' => 'required|exists:categorias,id'
     ], [
       'required' => 'El :attribute es requerido',
@@ -88,7 +88,7 @@ class LibroController extends Controller {
    * Display the specified resource.
    */
   public function show(Libro $libro) {
-    $res = Libro::with('categoria:id,descripcion')->where('id', $libro->id)->get();
+    $res = Libro::with('categoria:id,descripcion', 'autores:id,nombres,apellidos')->where('id', $libro->id)->get();
     if (isset($res)) {
       return response()->json([
         'data' => $res,

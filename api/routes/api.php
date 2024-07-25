@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AutorController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\DetalleAutorController;
 use App\Http\Controllers\LibroController;
 use App\Http\Controllers\MultaController;
 use App\Http\Controllers\PersonaController;
@@ -29,6 +30,10 @@ Route::apiResource("autores", AutorController::class);
 Route::apiResource("prestamos", PrestamoController::class);
 Route::apiResource("personas", PersonaController::class);
 Route::apiResource("multas", MultaController::class);
+
+Route::apiResource("detalleautores", DetalleAutorController::class);
+Route::delete("detalleautores", [DetalleAutorController::class, 'destroyDetalleAutor']);
+
 
 Route::apiResource("tipos", TipoController::class);
 Route::apiResource("categorias", CategoriaController::class);

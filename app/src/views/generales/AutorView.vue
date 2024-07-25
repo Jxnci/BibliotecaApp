@@ -68,7 +68,7 @@
     </div>
     <!-- Paginacion -->
     <div class="flex items-center justify-between mt-3">
-      <button @click="fetchAutores(currentPage - 1)" :disabled="currentPage === 1"
+      <button @click="fetchAutores('',currentPage - 1)" :disabled="currentPage === 1"
         class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
           class="w-5 h-5 rtl:-scale-x-100">
@@ -86,7 +86,7 @@
           autores.length }}
           resultados</span>
       </div>
-      <button @click="fetchAutores(currentPage + 1)" :disabled="currentPage === lastPage"
+      <button @click="fetchAutores('',currentPage + 1)" :disabled="currentPage === lastPage"
         class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
         <span>Siguiente</span>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"

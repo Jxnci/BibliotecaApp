@@ -4,10 +4,11 @@ import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 
 class AutoreseService {
-  async fetchAll(buscar,page = 1) {
+  async fetchAll(buscar, page = 1) {
     try {
       const URL_API = settings.environments.prod.api.uri
-      const uri = `${URL_API}/autores?page=${page}&nombreApellido=${buscar}`
+      const param = buscar ? `&nombreApellido=${buscar}` : ''
+      const uri = `${URL_API}/autores?page=${page}${param}`
       const rawResponse = await fetch(uri, {
         method: 'GET'
       })
@@ -34,30 +35,30 @@ class AutoreseService {
     }
   }
   async create(item) {
-    const URL_API = settings.environments.prod.api.uri;
-    const uri = `${URL_API}/autores`;
+    const URL_API = settings.environments.prod.api.uri
+    const uri = `${URL_API}/autores`
     const rawResponse = await fetch(uri, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(item)
-    });
-    const response = await rawResponse.json();
-    return response;
+    })
+    const response = await rawResponse.json()
+    return response
   }
   async update(id, item) {
-    const URL_API = settings.environments.prod.api.uri;
-    const uri = `${URL_API}/autores/${id}`;
+    const URL_API = settings.environments.prod.api.uri
+    const uri = `${URL_API}/autores/${id}`
     const rawResponse = await fetch(uri, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(item)
-    });
-    const response = await rawResponse.json();
-    return response;
+    })
+    const response = await rawResponse.json()
+    return response
   }
   async deleteById(id) {
     try {

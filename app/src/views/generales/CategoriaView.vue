@@ -197,8 +197,6 @@ const createItem = async () => {
     console.log('Error creating item:', error);
   }
 };
-
-
 </script>
 <style scoped>
 .modal {
