@@ -1,84 +1,31 @@
-# Aplicacion para biblioteca La Libertad
+# Biblioteca App
 
-## Integrantes
-
-	- Urdanivia Coral Janci
-	- Mautino Huerta Fernando
-	- Espinoza Chavez Luis
-	- Garro Torres Pablo
-
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a><a href="https://vue.org" target="_blank"><img src="https://miro.medium.com/v2/resize:fit:500/1*CPDIH8BWrGipHRJ6o6E2Vw.png" width="400" alt="Laravel Logo"></a></p>
 
 
+## Acerca del proyecto
 
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Este proyecto es un sistema de gestión de bibliotecas que permite administrar autores, libros, préstamos, multas y usuarios. El sistema está diseñado para manejar diferentes tipos de usuarios (docentes, administrativos, alumnos) y ofrece funcionalidades avanzadas como la asignación de múltiples autores a un libro, múltiples libros a un préstamo, y la gestión de préstamos con distintos estados.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Caracteristicas
 
-## About Laravel
+- Gestión de Autores: Creación, edición y eliminación de autores. Un libro puede tener múltiples autores.
+- Gestión de Libros: Creación, edición y eliminación de libros. Se pueden asignar múltiples autores a un libro.
+- Gestión de Préstamos: Creación, edición y eliminación de préstamos. Los préstamos pueden incluir múltiples libros y tienen un estado que puede ser prestado, con multa o finalizado.
+- Gestión de Multas: Sistema de multas asociado a los préstamos, que se calcula automáticamente según las reglas establecidas.
+- Gestión de Usuarios: Creación, edición y eliminación de usuarios, con distintos tipos de usuarios (docente, administrativo, alumno).
+- Detalles de Préstamo y Libro: Registro detallado de los libros prestados y sus respectivos autores.
+- Login y Autenticación: Sistema de autenticación para usuarios con diferentes roles y permisos.
+- Dashboard: Visualización de estadísticas clave, incluyendo la cantidad total de libros, préstamos, autores y usuarios.
+- Reportes: Gráficos de reportes de préstamos realizados durante el año
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Requisitos
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Backend: Laravel 11
+- Frontend: Vue 3
+- Base de datos: MySQL
 
-## Project Setup
+## Setup
 
-```sh
-composer install
-```
-
-### migration to data base
-
-```sh
-php artisan db:migrate --seed
-```
-
-### exec serve
-
-```sh
-php artisan serve
-```
+- Ejecutar el Archivo ``` setup.bat ```
 
